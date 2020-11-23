@@ -1,0 +1,37 @@
+THIS DOC HAS IMPLEMENTATION DETAILS FOR THE VIDEOS
+
+
+PART 8: LOG IN SYSTEM WITH SESSION AND SECURITY.
+- Connection to database is saved in db config file, which is included in the security.php file
+-security.php file checks whether username session is set inorder to allow entry into index.php. One cant access index.php without loging in.
+ 
+ PART 9: LOGOUT 
+ -we destroy the session and unset the username session variable. 
+ -security.php file is included in register.php document.  
+
+ PART 10: ROLES: Admin or user?
+ -add an input field in register.php, give it a value admin and set it to hidden. 
+-in code.php, add a variable name usertype, then insert the variable in register table. (register table is added one more field.)
+
+-In register_edit.php, add a select tag, for selecting usertype, either admin or user. give the tag a name.
+-In code.php, in update_btn section, create a variable to hold the select tag value.
+-update this value in the query. 
+
+
+-in code.php code in a way that will take admin, user to different pages using the location attribute. 
+
+
+PART 12
+.htaccess file
+used to create error 404 page. 
+Should be in the root directory. 
+One should start by making the 404 error page. 
+
+PART 13
+GIVING A SECURE DATABASE CONNECTION
+dbConfig has been included in security.php(remember security.php checks whethe the username session variable is already set, if not the user is send to login page).
+-main purpose of dbConfig is to check whether db connection is successful, if not, it prints out database error message. 
+
+PART 14: IMAGE CRUD: FACULTY PAGE
+-We start by creating the faculty page under webpages
+-we set input type as file for image upload. 

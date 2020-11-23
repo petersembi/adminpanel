@@ -1,0 +1,5 @@
+DELETE ONE ROW. 
+==>we create an input besides each delete button, whose value is  the ID of that row as fetched by a while loop and stored in a row. 
+==>action is set to code.php. 
+
+UPDATE HOW MANY READERS
