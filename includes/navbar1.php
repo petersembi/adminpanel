@@ -38,6 +38,7 @@
       <h6 class="collapse-header">Custom Components:</h6>
       <a class="collapse-item" href="about us.php">About Us</a>
       <a class="collapse-item" href="Faculty.php">Faculties</a>
+      <a class="collapse-item" href="departments.php">Departments</a>
     </div>
   </div>
 </li>

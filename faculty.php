@@ -57,10 +57,15 @@ include('includes/navbar1.php');
 <!-- DataTales Example -->
 <div class="card-header py-3">
     <h6 class="m-0 font-weight-bold text-primary">FACULTIES
+      <form action="">
+        <button type="submit" class="btn btn-danger" name="delete_multiple_data" onclick = "toggleCheckBox(this)">
+        Delete Multiple Data
+        </button>
+      </form>
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addfaculty"> 
         Add Faculty
       </button>
-
+      
 
     </h6>
 
@@ -91,6 +96,7 @@ include('includes/navbar1.php');
       
         <thead>
           <tr>
+            <th>Check</th>
             <th>ID</th>
             <th>Name</th>
             <th>Designation</th>
@@ -108,6 +114,7 @@ include('includes/navbar1.php');
               {
                  ?>
                 <tr>
+                <td><input type="checkbox" value="<?php  echo $row['id'];  ?>" name="" id=""></td>
                 <td><?php  echo $row['id'];  ?></td>
                 <td><?php  echo $row['name'];?></td>
                 <td><?php  echo $row['design'];   ?></td>
@@ -147,6 +154,37 @@ include('includes/navbar1.php');
 
 </div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  function toggleCheckBox(box)
+  {
+      var id = $(box).attr("value");
+
+      if ($(box).prop("checked")== true) 
+      {
+        var visible = 1;
+      } else 
+      {
+        var visible = 0;
+      }
+
+      var data = {
+        "search_data": 1,
+        "id": id,
+        "visible": visible
+      };
+
+      $.ajax({
+        type: "post",
+        url: "code.php",
+        data: data,
+        success: function (response) {
+          alert("Data checked");
+        }
+      });
+  }
+
+</script>
 <?php
 include('includes/scripts.php');
 include('includes/footer.php');

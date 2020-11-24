@@ -295,4 +295,13 @@ if (isset($_POST['faculty_delete_btn'])) {
 
     
 }
+
+if (isset($_POST['search_data']))
+{
+    $id = $_POST['id'];
+    $visible = $_POST['visible'];
+
+    $query = "UPDATE faculty SET visible = '$visible' WHERE id='$id' ";
+    $query_run = mysqli_query($connection, $query);
+}
 ?>
