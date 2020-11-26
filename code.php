@@ -203,15 +203,7 @@ if (isset($_POST['save_faculty'])) {
    
     $images = $_FILES["faculty_image"]['name'];
 
-    // if (file_exists("upload/".$_FILES["faculty_image"]["name"])) 
-    // {
-    //     $store = $_FILES["faculty_image"]["name"];
-    //     $_SESSION['status'] = "Image already exists. '.$store'";
-    //     header('Location: faculty.php');
-    // } 
-    // else 
-    // {
-        
+    
     
                     $query = "INSERT INTO faculty (name, design, descrip, images) VALUES ('$name', '$design', '$description', '$images')";
                     $query_run = mysqli_query($connection, $query);
@@ -304,4 +296,81 @@ if (isset($_POST['search_data']))
     $query = "UPDATE faculty SET visible = '$visible' WHERE id='$id' ";
     $query_run = mysqli_query($connection, $query);
 }
+
+
+if (isset($_POST['departments_save_btn'])) {
+    $deptName = $_POST['dept_name'];
+    $description = $_POST['dept_description'];
+    $deptImg = $_FILES["dept_img"]['name'];
+    
+    if (file_exists("upload/departments/".$_FILES["dept_img"]['name'])) 
+    {
+        $_SESSION['status'] = "Image already exists.'$deptImg.'";
+        header("Location: departments.php");
+    } else {
+                $query = "INSERT INTO `departments`( `dept_name`, `descrip`, `image_names`) VALUES ('$deptName','$description','$deptImg')";
+            $query_run = mysqli_query($connection, $query);
+
+            if ($query_run) {
+                move_uploaded_file($_FILES['dept_img']['tmp_name'], "upload/departments/".$_FILES['dept_img']['name'] );
+
+                $_SESSION['success'] = 'Department Category added successfully';
+                header('Location: departments.php');
+            } else {
+                $_SESSION['status'] = "Image not added";
+                header('Location: departments.php');
+            }
+    }
+    
+
+    
+}
+
+
+if (isset($_POST['updateBtnDepts'])) {
+
+    $id = $_POST['edit_id'];
+    $edit_dept_name = $_POST['edit_dept_name'];
+    $edit_dept_descrip = $_POST['edit_descrip'];
+    $edit_dept_img_name = $_FILES['edit_dept_image']['name'];
+    $edit_dept_tmpName =$_FILES['edit_dept_image']['tmp_name'];
+
+    $query = "UPDATE `departments` SET `dept_name`='$edit_dept_name',`descrip`='$edit_dept_descrip',`image_names`=' $edit_dept_img_name' WHERE id= '$id' ";
+    $query_run = mysqli_query($connection, $query);
+
+  
+     
+    if($query_run){
+
+        move_uploaded_file($edit_dept_tmpName, "upload/departments/". $edit_dept_img_name);
+        $_SESSION['success'] = "Department Category updated successfully!";
+        header("Location: departments.php");
+
+    }
+    else 
+    {
+        $_SESSION['status'] = "Department Category Not Updated!";
+            header("Location: departments.php");
+    }
+
+    }
+
+    
+    if (isset($_POST['dept_delete_btn'])) {
+        $id = $_POST['delete_id'];
+        
+        $query = "DELETE FROM departments WHERE id='$id'";
+        $query_run =  mysqli_query($connection, $query);
+    
+        if ($query_run) {
+            $_SESSION['success'] = "Your Data is Deleted";
+            header('Location: departments.php');
+        } else 
+        {
+            $_SESSION['status'] = "Your Data is NOT deleted";
+            header('Location: departments.php');
+        }
+    
+        
+    }
 ?>
