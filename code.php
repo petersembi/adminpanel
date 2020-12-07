@@ -5,7 +5,23 @@ session_start();
 
  $connection = mysqli_connect("localhost","root","","adminpanel");
 
-if(isset($_POST['registerbtn'])) {
+
+if (isset($_POST['check_submit_btn'])) {
+    $email = $_POST['email_id'];
+    $email_query = "SELECT * FROM register WHERE email = '$email' ";
+    $email_query_run = mysqli_query($connection, $email_query);
+
+    if(mysqli_num_rows( $email_query_run)>0)
+    {
+        $_SESSION['status']= 'Email Already exists. Please Try Another';
+        header('Location: register.php');
+    } else {
+        echo 'Its available';
+    }
+}
+
+
+ if(isset($_POST['registerbtn'])) {
     echo "isset";
     $username = $_POST['username'];
     $email = $_POST['email'];  
@@ -13,20 +29,35 @@ if(isset($_POST['registerbtn'])) {
     $cpassword = $_POST['cpassword'];
     $usertype = $_POST['usertype'];
 
-    if ($password===$cpassword) {
-                $query = "INSERT INTO register (username, email, password, usertype) VALUES ('$username', '$email','$password', '$usertype');";
-                $query_run = mysqli_query($connection, $query);
-            if ($query_run) {
-                $_SESSION['success']= "Admin Profile Added";
-                header('Location: register.php');
-            } else {
-                $_SESSION['status']= 'Admin Profile not added';
-                header('Location: register.php');
-            }
+    $email_query = "SELECT * FROM register WHERE email = '$email' ";
+    $email_query_run = mysqli_query($connection, $email_query);
+
+    if(mysqli_num_rows( $email_query_run)>0)
+    {
+        $_SESSION['status']= 'Email Already taken';
+        $_SESSION['status_code']= 'error';
+        header('Location: register.php');
     } else {
-        $_SESSION['status']= 'Password and Confirm Password Does Not Match';
-                header('Location: register.php');
+        if ($password===$cpassword) {
+            $query = "INSERT INTO register (username, email, password, usertype) VALUES ('$username', '$email','$password', '$usertype');";
+            $query_run = mysqli_query($connection, $query);
+        if ($query_run) {
+            $_SESSION['status']= "Admin Profile Added";
+            $_SESSION['status_code']= 'success';
+            header('Location: register.php');
+        } else {
+            $_SESSION['status']= 'Admin Profile not added';
+            $_SESSION['status_code']= 'error';
+            header('Location: register.php');
+        }
+} else {
+    $_SESSION['status']= 'Password and Confirm Password Does Not Match';
+    $_SESSION['status_code']= 'warning';
+            header('Location: register.php');
+}
     }
+
+   
 
     
     
@@ -53,11 +84,13 @@ if (isset($_POST['updatebtn'])) {
     $query_run = mysqli_query($connection,$query);
 
     if ($query_run) {
-        $_SESSION['success'] = "Your Data is Updated";
+        $_SESSION['status'] = "Your Data is Updated";
+        $_SESSION['status_code'] = "success";
         header('Location: register.php');
     } else 
     {
         $_SESSION['status'] = "Your Data is NOT updated";
+        $_SESSION['status_code'] = "warning";
         header('Location: register.php');
     }
 
@@ -74,11 +107,13 @@ if (isset($_POST['delete_btn'])) {
     $query_run =  mysqli_query($connection, $query);
 
     if ($query_run) {
-        $_SESSION['success'] = "Your Data is Deleted";
+        $_SESSION['status'] = "Your Data is Deleted";
+        $_SESSION['status_code'] = "success";
         header('Location: register.php');
     } else 
     {
         $_SESSION['status'] = "Your Data is NOT deleted";
+        $_SESSION['status_code'] = "error";
         header('Location: register.php');
     }
 
